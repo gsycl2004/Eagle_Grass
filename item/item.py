@@ -12,7 +12,10 @@ ENUMITEMList =list(enumerate(['油炸心脏',
            '鹰目jk照（无货，请勿购买，违者自负）',
            '红色水池',
            "他妈的",
+
+
            ]))
+ITEMLIST = []
 
 class ITEM():
     def __init__(self,id):
@@ -20,7 +23,8 @@ class ITEM():
         self.Name = dict(ENUMITEMList)[id]
         pass
 
-
+for a,b in ENUMITEMList:
+    ITEMLIST.append(ITEM(a))
 
 class ITEMControl():
     def __init__(self, filename):
@@ -29,11 +33,19 @@ class ITEMControl():
         self.__config.read(self.path, encoding='utf-8')
 
     def INIT_ITEM(self,uid):
-        self.__config.add_section(uid)
+        if not self.__config.has_section(uid):
+            self.__config.add_section(uid)
+            self.set(uid,'thing','')
 
-
-
+    def Add_Item(self,uid,id):
+        self.INIT_ITEM(uid)
+        self.__config.read(self.path,encoding='utf-8')
+        s = self.__config[str(uid)]['thing'].split(',')
+        f = s + id
+        NMINFO = ','.join(f)
+        self.__config.set(uid,'thing',NMINFO)
+        self.__config.write(open(self.path,'w+'))
 
 
 if __name__ == '__main__':
-    print(ITEM(2).Name)
+    print(ITEMLIST[1].Name)
