@@ -121,7 +121,7 @@ class money:
 
 class shop():
     def __init__(self):
-        self._My = money('2.ini')
+        self._My = money('Edata/物品数据.ini')
         self.item = ShopList
     def get_menu(self,group=None):
         msg = ''

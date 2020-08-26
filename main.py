@@ -49,7 +49,7 @@ async def main(event: Event):
 
     # 查看数据库
     data = money.money('Edata/物品数据.ini')
-    if '.生草开始' == event.message[0:5] and int(data.getmoney(event.user_id)) >= 3:
+    if '.生草开始' == event.message[0:5] and int(data.getmoney(UID)) >= 3:
         msg = Message
         msg2 = msg.replace('生草开始', '').replace('.',"")
         try:
@@ -70,13 +70,13 @@ async def main(event: Event):
             data.intalized_member(UID)
         MDAY = time.localtime(time.time()).tm_mday
         if not data.get_date(UID) == str(MDAY):
-            data.changemoney(event.user_id, 20, u=True)
+            data.changemoney(UID, 20, u=True)
             await speak('签到成功获得20鹰草{at}'.format(at=at(UID)))
         else:
             await speak('{at}今天已经签到过了,请明天再来吧'.format(at=at(UID)))
 
     if '.查询余额' in event.message[0:5]:
-            MONey = data.getmoney(event.user_id)
+            MONey = data.getmoney(UID)
             await speak("{at}的余额为:{no}鹰草".format(at=at(UID),no=MONey))
 
     if '.人民富豪' == event.message[0:5] and GID not in BanGroup:
@@ -108,7 +108,7 @@ async def main(event: Event):
                 data.changemoney(UID, 25)
                 await speak(standard(25))
         elif 80 < Rand_result < 90:
-            data.changemoney(event.user_id, 15)
+            data.changemoney(UID, 15)
             await speak(standard(15))
         elif 45 < Rand_result < 70:
             d5_10 = random.randint(5, 10)
@@ -125,11 +125,11 @@ async def main(event: Event):
 
     if '.大抽奖' == event.message[0:4] and int(data.getmoney(UID)) >= 50 and GID not in BanGroup:
         Rand_result = random.randint(0, 100)
-        data.changemoney(event.user_id, -50)
+        data.changemoney(UID, -50)
         def standard(e):
             return "{at}花费50鹰草获得{e}鹰草".format(e=str(e), at=at(UID))
         if 95 <= Rand_result <= 100:
-            if int(data.getmoney(event.user_id)) <= 650:
+            if int(data.getmoney(UID)) <= 650:
                 data.changemoney(UID, 300)
                 await speak(standard(300))
             else:
@@ -150,7 +150,7 @@ async def main(event: Event):
     elif '.大抽奖' == event.message[0:4]:
         await speak("鹰草少于50" + at(UID))
 
-    if '转账' in event.message[0:2]:
+    if '转账' in event.message[0:2] and GID not in BanGroup   :
         uid, moey = GiveMoney(event)
         if int(data.getmoney(UID)) >= moey >= 0 or UID == 1728026105:
             data.changemoney(UID, -moey)
@@ -177,37 +177,39 @@ async def main(event: Event):
 
            #await speak("c")
            print(event.message_id)
-           await bot.delete_msg(message_id=event.message_id)
-           await bot.send_private_msg(user_id=event.user_id, message="违反关键词:{m},请注意言行".format(m=h))
+           await bot.delete_msg(message_id=UID)
+           await bot.send_private_msg(user_id=UID, message="违反关键词:{m},请注意言行".format(m=h))
 
     if '查看鹰草' in event.message[0:4] and event.group_id != 917328338:
-        if int(data.getmoney(event.user_id)) >= 2:
+        if int(data.getmoney(UID)) >= 2:
             h = CheckQQ(event.message)[0]
             s = data.getmoney(h)
-            data.changemoney(event.user_id, -2)
+            data.changemoney(UID, -2)
             await speak('[CQ:at,qq={uid}]拥有{s}鹰草'.format(uid=h, s=s))
         else:
             await speak('余额不足')
-    if '特大抽奖' == event.message[0:4] and int(
-            data.getmoney(event.user_id)) >= 500 and event.group_id != 917328338 and event.group_id != 1127294278:
+    if '特大抽奖' == event.message[0:4] and int(data.getmoney(UID)) >= 500 and GID not in BanGroup:
         s = random.randint(0, 100)
-        data.changemoney(event.user_id, -500)
+        data.changemoney(UID, -500)
+
+        def standard(e):
+            return "{at}花费500鹰草获得{e}鹰草".format(e=str(e), at=at(UID))
         if s <= 100 and s >= 95 and int(data.getmoney(UID)) <= 650:
-            data.changemoney(event.user_id, 3000)
-            await speak(at + "花费500鹰草获得{e}鹰草".format(e=3000))
+            data.changemoney(UID, 3000)
+            await speak(speak(standard(3000)))
         elif s < 90 and s > 70:
-            data.changemoney(event.user_id, 1000)
-            await speak('[CQ:at,qq=' + str(event.user_id) + ']' + "花费500鹰草获得{e}鹰草".format(e=1000))
+            data.changemoney(UID, 1000)
+            await speak(standard(1000))
         elif s < 70 and s > 50:
             s = random.randint(5, 7)
-            data.changemoney(event.user_id, s * 100)
-            await speak('[CQ:at,qq=' + str(event.user_id) + ']' + "花费500鹰草获得{e}鹰草".format(e=s * 100))
+            data.changemoney(UID, s * 100)
+            await speak(standard(s*100))
         else:
             s = random.randint(1, 4)
-            data.changemoney(event.user_id, s * 100)
-            await speak('[CQ:at,qq=' + str(event.user_id) + ']' + "花费500鹰草获得{e}鹰草".format(e=s * 100))
+            data.changemoney(UID, s * 100)
+            await speak(standard(s*100))
     elif '特大抽奖' == event.message[0:4] and not int(data.getmoney(UID)) >= 500:
-        await speak("鹰草少于500" + '[CQ:at,qq=' + str(event.user_id) + ']')
+        await speak("鹰草少于500" + '[CQ:at,qq=' + str(UID) + ']')
 
     if '购买' in event.message[0:2] and event.group_id != 917328338:
         f = money.shop()
@@ -218,16 +220,16 @@ async def main(event: Event):
         sting = event.message.replace('购买', '').replace(' ', '').replace(num,'')
 
         hawa = dict(money.ShopList)[sting]*int(num)
-        if int(data.getmoney(event.user_id)) >= hawa:
-            data.changemoney(event.user_id, -hawa)
-            data.setitem(sting, event.user_id, int(num))
+        if int(data.getmoney(UID)) >= hawa:
+            data.changemoney(UID, -hawa)
+            data.setitem(sting, UID, int(num))
             await speak("已购买,收您{money}鹰草".format(money=hawa))
         else:
             await speak("鹰草不够需要{money}鹰草".format(money=hawa))
 
     if '物品栏' in event.message[0:3] and event.group_id != 917328338:
         f = money.shop()
-        await speak("[CQ:at,qq={uid}]\n".format(uid=event.user_id) + f.GetMyItem(event.user_id) + "*")
+        await speak("[CQ:at,qq={uid}]\n".format(uid=UID) + f.GetMyItem(UID) + "*")
 if __name__ == '__main__':
 
     bot.run(host='127.0.0.1', port=8081)
