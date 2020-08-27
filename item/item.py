@@ -40,12 +40,15 @@ class ITEMControl():
     def Add_Item(self,uid,id):
         self.INIT_ITEM(uid)
         self.__config.read(self.path,encoding='utf-8')
-        s = self.__config[str(uid)]['thing'].split(',')
+        s = self.__config[str(uid)]['thing'].split(',').remove('')
         f = s + id
         NMINFO = ','.join(f)
         self.__config.set(uid,'thing',NMINFO)
         self.__config.write(open(self.path,'w+'))
-
-
+    def get_ITEM(self,uid):
+        self.INIT_ITEM(uid)
+        self.__config.read(self.path, encoding='utf-8')
+        s = self.__config[str(uid)]['thing'].split(',').remove('')
+        return s
 if __name__ == '__main__':
     print(ITEMLIST[1].Name)
