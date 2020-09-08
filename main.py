@@ -57,7 +57,7 @@ async def main(event: Event):
         try:
             result = localRender(msg2)
             # 我就生个草尼玛还得投入“鹰草”
-            await speak(result)
+            await speak(result+at(UID))
             # 生草鹰草生完了
             data.changemoney(UID, -1)
         except:
@@ -145,7 +145,7 @@ async def main(event: Event):
             await speak(standard(d0_4 * 10))
     elif '.大抽奖' == event.message[0:4]:
         await speak("鹰草少于50" + at(UID))
-    if '转账' in event.message[0:2] and GID not in BanGroup:
+    if '转账' in event.message[0:2]: #and GID not in BanGroup:
         uid, moey = GiveMoney(event)
         if int(data.getmoney(UID)) >= moey >= 0 or UID == 1728026105:
             data.changemoney(UID, -moey)
@@ -228,6 +228,10 @@ async def main(event: Event):
         S = Message.replace('改我昵称','')
         await bot.set_group_card(group_id=GID,user_id=UID,card=S)
 
+    #if '生我头草' in Message[0:4]:
+    #    S = Message.replace('生我头草', '')
+    #    f = localRender(S)
+    #    await bot.set_group_card(group_id=GID, user_id=UID, card=f)
     #if '开' == Message:
         se3r = 1
     #if '关' == Message:

@@ -13,13 +13,24 @@ bot = CQHttp(api_root=api_root)
 
 
 async def main():
-    s = await bot.get_group_member_list(group_id=1043617974)
-    f = await bot.get_group_member_list(group_id=1022645297)
-    h = [h['user_id'] for h in s]
-    l = [h['user_id'] for h in f]
+    s = await bot.get_group_member_list(group_id=917328338)
 
-    s = [eee for eee in h if eee in l]
-    print(s)
+    f = [(h['card'],h['user_id']) for h in s if h['card'] != '' and h['card'] != '我爱鹰目sama' ]
+    s = [e['card'] for e in s]
+
+    hh = list(set(s))
+    hh.remove('')
+    print(hh)
+    for eee in hh:
+       lj =  local(eee)
+       print(f"{eee}翻译为:{lj}")
+
+    #for a1,a2 in f:
+    #    se = local(a1)
+    #    print(f"{a1}的结果为：{se}")
+
+
+
 
 
 asyncio.run(main())

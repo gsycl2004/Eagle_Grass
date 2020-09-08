@@ -32,7 +32,7 @@ def single_trans_baidu(content, target):
     # 获得翻译的结果，然后连过程带结果一步一步拼好，中间打回车
     f = json.loads(s.text)
     # 直接返回单次翻译的结果，到时候反复调用就ok
-    print(f)
+    #print(f)
     return f['trans_result'][0]['dst']
 
 
@@ -53,7 +53,7 @@ def localRender(name):
             result = single_trans_google(text=result, tl=trans_chain[i])[0]
           except:
               result = single_trans_baidu(content=result, target=trans_chain[i])
-        print('稍微等会就完成了哦~{}/5'.format(i+1))
+        #print('稍微等会就完成了哦~{}/5'.format(i+1))
 
     # 好了现在开始治疗你的那个病了，尝试写个独立于循环的东西：所有的东西完全一致,
     # 略微处理字符串之后再次翻译（总之不能一样），稍微加个空字符
@@ -62,9 +62,16 @@ def localRender(name):
     # 返回翻译结果
     return result
 
-
+def local(name):
+    result = name
+    trans_chain = ['zh', 'dan', 'est', 'ru', 'en']
+    for i in range(len(trans_chain)):
+        result = single_trans_baidu(content=result, target=trans_chain[i])
+    result += ''
+    result = single_trans_baidu(result, 'zh')
+    return result
 if __name__ == '__main__':
     start = time.perf_counter()
-    print(local('你妈妈买菜必涨价1'))
+
     end = time.perf_counter()
-    print('生草时间：{}'.format(end-start))
+    #print('生草时间：{}'.format(end-start))
