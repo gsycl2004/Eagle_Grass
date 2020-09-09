@@ -8,7 +8,7 @@ from module.translator import *
 import text.danger
 import module.money as money
 
-api_root = "http://127.0.0.1:5700/"
+api_root = "http://192.168.1.45:5700/"
 bot = CQHttp(api_root=api_root)
 
 

@@ -8,7 +8,7 @@ import text.danger
 import module.money as money
 
 # 引入
-api_root = "http://127.0.0.1:5700/"
+api_root = "http://192.168.1.45:5700/"
 bot = CQHttp(api_root=api_root)
 
 se3r = 0
@@ -168,9 +168,9 @@ async def main(event: Event):
 		if '.商品列表' in event.message[0:5] and GID not in BanGroup:
 			MBFK = money.shop()
 			await speak(MBFK.get_menu())
-	if '.占卜' in event.message[0:3]:
+	if '.占卜' in event.message[0:3] and event.message.replace('.占卜','') != '':
 		s = random.randint(1, 100)
-		if 25 < s < 75:
+		if 0 < s < 50:
 			await speak("不能")
 		else:
 			await speak("能")
@@ -236,7 +236,7 @@ async def main(event: Event):
 			s = s - 1
 			if s <= 0:
 				break
-
+				
 	if '改我昵称' in Message[0:4]:
 		S = Message.replace('改我昵称', '')
 		await bot.set_group_card(group_id=GID, user_id=UID, card=S)
@@ -252,4 +252,4 @@ async def main(event: Event):
 
 
 if __name__ == '__main__':
-	bot.run(host='127.0.0.1', port=8081)
+	bot.run(host='0.0.0.0', port=25565)
