@@ -53,7 +53,7 @@ def localRender(name):
             result = single_trans_google(text=result, tl=trans_chain[i])[0]
           except:
               result = single_trans_baidu(content=result, target=trans_chain[i])
-        #print('稍微等会就完成了哦~{}/5'.format(i+1))
+        print('稍微等会就完成了哦~{}/5'.format(i+1))
 
     # 好了现在开始治疗你的那个病了，尝试写个独立于循环的东西：所有的东西完全一致,
     # 略微处理字符串之后再次翻译（总之不能一样），稍微加个空字符

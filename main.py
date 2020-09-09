@@ -6,6 +6,7 @@ import re
 from module.translator import *
 import text.danger
 import module.money as money
+import kusa.main as kusa
 
 # 引入
 api_root = "http://192.168.1.45:5700/"
@@ -249,7 +250,16 @@ async def main(event: Event):
 		se3r = 1
 		# if '关' == Message:
 		se3r = 0
+		
+	if '加密' in Message[0:4]:
+		s = Message.replace('加密','')
+		f = kusa.encode(s)
+		await speak(f"{f}")
 
+	if '解密' in Message[0:4]:
+		s = Message.replace('加密','')
+		f = kusa.decode(s)
+		await speak(f"{f}")
 
 if __name__ == '__main__':
-	bot.run(host='0.0.0.0', port=25565)
+	bot.run(host='127.0.0.1', port=8081)
